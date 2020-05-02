@@ -123,13 +123,13 @@ resource "azurerm_virtual_machine" "minecraftvm" {
   # delete_data_disks_on_termination = true
 
   storage_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter-Server-Core-smalldisk"
     version   = "latest"
   }
   storage_os_disk {
-    name              = "osdisk"
+    name              = "${var.prefix}osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -139,9 +139,9 @@ resource "azurerm_virtual_machine" "minecraftvm" {
     admin_username = var.admin_username
     admin_password = var.admin_password
   }
-  os_profile_linux_config {
-    disable_password_authentication = false
+  os_profile_windows_config {
   }
+
   tags = {
     environment = var.environment
   }
@@ -153,6 +153,6 @@ data "azurerm_public_ip" "pip" {
   resource_group_name = azurerm_virtual_machine.minecraftvm.resource_group_name
 }
 
-output "minecraftnsg_public_ip_address" {
+output "minecraftvm_public_ip_address" {
   value = data.azurerm_public_ip.pip.ip_address
 }
