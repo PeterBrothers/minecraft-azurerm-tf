@@ -85,7 +85,7 @@ resource "azurerm_network_interface" "main" {
   }
 }
 
-# TODO associate with network interface and subnet
+# TODO add georgi ip to inbound rule
 resource "azurerm_network_security_group" "minecraftnsg" {
   name                = "minecraftnsg"
   location            = azurerm_resource_group.rg.location
@@ -100,6 +100,17 @@ resource "azurerm_network_security_group" "minecraftnsg" {
     source_port_range          = "*"
     destination_port_range     = "25565"
     source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name                       = "georgirdp"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Any"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefix      = var.georgi_ip
     destination_address_prefix = "*"
   }
 
