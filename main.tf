@@ -94,7 +94,7 @@ resource "azurerm_network_security_group" "minecraftnsg" {
   resource_group_name = azurerm_resource_group.rg.name
 
   security_rule {
-    name                       = "minecraftjavaedition"
+    name                       = "portin25565"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
@@ -134,7 +134,7 @@ resource "azurerm_network_security_group" "minecraftnsg" {
     protocol                   = "UDP"
     source_port_range          = "*"
     destination_port_range     = "19132"
-    source_address_prefix      = var.machine_ip
+    source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
   security_rule {
@@ -145,7 +145,7 @@ resource "azurerm_network_security_group" "minecraftnsg" {
     protocol                   = "UDP"
     source_port_range          = "*"
     destination_port_range     = "19132"
-    source_address_prefix      = var.machine_ip
+    source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
   security_rule {
