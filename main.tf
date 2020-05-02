@@ -126,6 +126,39 @@ resource "azurerm_network_security_group" "minecraftnsg" {
     source_address_prefix      = var.machine_ip
     destination_address_prefix = "*"
   }
+  security_rule {
+    name                       = "portin19132"
+    priority                   = 130
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "UDP"
+    source_port_range          = "*"
+    destination_port_range     = "19132"
+    source_address_prefix      = var.machine_ip
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name                       = "portout19132"
+    priority                   = 110
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "UDP"
+    source_port_range          = "*"
+    destination_port_range     = "19132"
+    source_address_prefix      = var.machine_ip
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name                       = "portout25565"
+    priority                   = 120
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "TCP"
+    source_port_range          = "*"
+    destination_port_range     = "25565"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 
   tags = {
     environment = var.environment
