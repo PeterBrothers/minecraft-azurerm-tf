@@ -94,30 +94,8 @@ resource "azurerm_network_security_group" "minecraftnsg" {
   resource_group_name = azurerm_resource_group.rg.name
 
   security_rule {
-    name                       = "portin25565"
+    name                       = "ssh"
     priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "TCP"
-    source_port_range          = "*"
-    destination_port_range     = "25565"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-  security_rule {
-    name                       = "machinerdp"
-    priority                   = 110
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "3389"
-    source_address_prefix      = var.machine_ip
-    destination_address_prefix = "*"
-  }
-  security_rule {
-    name                       = "machinessh"
-    priority                   = 120
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "TCP"
@@ -127,31 +105,9 @@ resource "azurerm_network_security_group" "minecraftnsg" {
     destination_address_prefix = "*"
   }
   security_rule {
-    name                       = "portin19132"
-    priority                   = 130
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "UDP"
-    source_port_range          = "*"
-    destination_port_range     = "19132"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-  security_rule {
-    name                       = "portout19132"
+    name                       = "portin25565"
     priority                   = 110
-    direction                  = "Outbound"
-    access                     = "Allow"
-    protocol                   = "UDP"
-    source_port_range          = "*"
-    destination_port_range     = "19132"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-  security_rule {
-    name                       = "portout25565"
-    priority                   = 120
-    direction                  = "Outbound"
+    direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "TCP"
     source_port_range          = "*"
