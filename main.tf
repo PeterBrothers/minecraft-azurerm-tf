@@ -75,7 +75,9 @@ resource "azurerm_network_interface" "main" {
   ip_configuration {
     name                          = "minecraftconfiguration"
     subnet_id                     = azurerm_subnet.internal.id
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = "Static"
+    private_ip_address            = "10.0.2.5"
+    public_ip_address_id          = azurerm_public_ip.pip.id
   }
 
   tags = {
@@ -83,7 +85,7 @@ resource "azurerm_network_interface" "main" {
   }
 }
 
-
+# TODO associate with network interface and subnet
 resource "azurerm_network_security_group" "minecraftnsg" {
   name                = "minecraftnsg"
   location            = azurerm_resource_group.rg.location
@@ -112,7 +114,7 @@ resource "azurerm_virtual_machine" "minecraftvm" {
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.main.id]
-  vm_size               = "Standard_B2s_v2"
+  vm_size               = "Standard_B2s"
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   # delete_os_disk_on_termination = true
@@ -151,6 +153,6 @@ data "azurerm_public_ip" "pip" {
   resource_group_name = azurerm_virtual_machine.minecraftvm.resource_group_name
 }
 
-output "vm_public_ip_address" {
+output "minecraftnsg_public_ip_address" {
   value = data.azurerm_public_ip.pip.ip_address
 }
