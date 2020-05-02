@@ -59,7 +59,7 @@ resource "azurerm_public_ip" "pip" {
   name                    = "minecraft-pip"
   location                = azurerm_resource_group.rg.location
   resource_group_name     = azurerm_resource_group.rg.name
-  allocation_method       = "Dynamic"
+  allocation_method       = "Static"
   idle_timeout_in_minutes = 30
 
   tags = {
@@ -77,6 +77,29 @@ resource "azurerm_network_interface" "main" {
     name                          = "minecraftconfiguration"
     subnet_id                     = azurerm_subnet.internal.id
     private_ip_address_allocation = "Dynamic"
+  }
+
+  tags = {
+    environment = var.environment
+  }
+}
+
+
+resource "azurerm_network_security_group" "minecraftnsg" {
+  name                = "minecraftnsg"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "minecraftjavaedition"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "TCP"
+    source_port_range          = "*"
+    destination_port_range     = "25565"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 
   tags = {
