@@ -6,6 +6,8 @@ variable location {}
 variable environment {}
 variable admin_username {}
 variable admin_password {}
+variable machine_ip {}
+
 
 
 variable "prefix" {
@@ -85,7 +87,7 @@ resource "azurerm_network_interface" "main" {
   }
 }
 
-# TODO add georgi ip to inbound rule
+
 resource "azurerm_network_security_group" "minecraftnsg" {
   name                = "minecraftnsg"
   location            = azurerm_resource_group.rg.location
@@ -103,14 +105,25 @@ resource "azurerm_network_security_group" "minecraftnsg" {
     destination_address_prefix = "*"
   }
   security_rule {
-    name                       = "georgirdp"
+    name                       = "machinerdp"
     priority                   = 110
     direction                  = "Inbound"
     access                     = "Allow"
-    protocol                   = "Any"
+    protocol                   = "*"
     source_port_range          = "*"
     destination_port_range     = "3389"
-    source_address_prefix      = var.georgi_ip
+    source_address_prefix      = var.machine_ip
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name                       = "machinessh"
+    priority                   = 120
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "TCP"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = var.machine_ip
     destination_address_prefix = "*"
   }
 
@@ -134,9 +147,9 @@ resource "azurerm_virtual_machine" "minecraftvm" {
   # delete_data_disks_on_termination = true
 
   storage_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2016-Datacenter-Server-Core-smalldisk"
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
     version   = "latest"
   }
   storage_os_disk {
@@ -150,7 +163,8 @@ resource "azurerm_virtual_machine" "minecraftvm" {
     admin_username = var.admin_username
     admin_password = var.admin_password
   }
-  os_profile_windows_config {
+  os_profile_linux_config {
+    disable_password_authentication = false
   }
 
   tags = {
