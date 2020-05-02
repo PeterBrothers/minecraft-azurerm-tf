@@ -15,3 +15,13 @@ provider "azurerm" {
 
  features {}
 }
+
+
+resource "azurerm_resource_group" "rg" {
+  name     = "minecraft-tf"
+  location = var.location
+  
+  tags = {
+    environment = var.environment
+  }
+}
