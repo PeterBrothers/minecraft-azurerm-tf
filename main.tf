@@ -4,6 +4,9 @@ variable client_id {}
 variable client_secret {}
 variable location {}
 variable environment {}
+variable admin_username {}
+variable admin_password {}
+
 
 variable "prefix" {
   default = "minecraft"
@@ -48,10 +51,6 @@ resource "azurerm_subnet" "internal" {
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefix       = "10.0.2.0/24"
-
-  tags = {
-    environment = var.environment
-  }
 }
 
 
