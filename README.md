@@ -1,13 +1,11 @@
-# minecraft-azurerm-tf
+# Overview
 Minecraft on Azure via Terraform
 
-# Overview
-
 ## Minecraft server edition
-- [Java Edition](https://minecraft.gamepedia.com/Java_Edition)
+- [Minecraft Bedrock edition - Ubuntu](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
 - [Documentation and step by step process](https://minecraft.gamepedia.com/Tutorials/Setting_up_a_server)
 
-## Steps
+## Steps used with Java server
 1. `sudo ufw allow 25565/tcp`
 2. `sudo ufw allow 19132/udp`
 3. `sudo ufw enable`
