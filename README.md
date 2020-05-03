@@ -28,6 +28,21 @@ That is it for the setup script. The server will finish configuring and start!
 #### Server properties
 Changing server properties, such as `pvp` are done via the `server.properties` file. Available values can be found [here](https://minecraft.gamepedia.com/Server.properties)
 
+## Steps to load saved server to the Bedrock server
+Okay, so first - you don't want to convert the world to a .mcworld file. Here's what you want to do:
+
+1. Load your world in Windows 10 as a local world, close minecraft
+2. Open file explorer
+3. Navigate to: C:\Users\username\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds\ - where 'username' is your own windows username. There will be a folder (or multiple folders, one for each world you have in the Win 10 version) with a random name like 'BQUAAIFxEAA='. Find the one that is the world you want to put on your dedicated server by checking 'levelname.txt'
+4. Copy the entire contents of this folder (db folder, level.dat, etc.. - everything in there)
+5. Create a folder for the level in the 'worlds' folder on your bedrock server, name it the exact same thing that was in 'levelname.txt', and then paste the contents in there.
+6. Open server.properties on your bedrock server, and find the 'level-name=' line, enter the name of the folder you created in step 5 here (spaces are okay) so that it looks something like level-name=My Server Level - this should exactly match the folder name and level name (as found in levelname.txt)
+7. Start your bedrock server and it should now have your imported world running
+8. Copy local world folders and files to server via `scp`
+```powershell
+scp -r C:\Users\{username}\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds\{worldname} {username}@{server ip}:"'/home/{admin username}/minecraftbe/{world name}/worlds/Bedrock level'"
+```
+
 ## Steps used with Java server
 1. `sudo ufw allow 25565/tcp`
 2. `sudo ufw allow 19132/udp`
