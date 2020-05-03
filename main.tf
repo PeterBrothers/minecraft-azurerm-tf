@@ -128,7 +128,7 @@ resource "azurerm_managed_disk" "serverdisk" {
   resource_group_name  = azurerm_resource_group.rg.name
   storage_account_type = "StandardSSD_LRS"
   create_option        = "Empty"
-  disk_size_gb         = "32"
+  disk_size_gb         = "16"
   os_type              = "Linux"
 
   tags = {
