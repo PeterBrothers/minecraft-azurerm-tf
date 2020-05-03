@@ -38,7 +38,7 @@ Okay, so first - you don't want to convert the world to a .mcworld file. Here's 
 5. Create a folder for the level in the 'worlds' folder on your bedrock server, name it the exact same thing that was in 'levelname.txt', and then paste the contents in there.
 6. Open server.properties on your bedrock server, and find the 'level-name=' line, enter the name of the folder you created in step 5 here (spaces are okay) so that it looks something like level-name=My Server Level - this should exactly match the folder name and level name (as found in levelname.txt)
 7. Start your bedrock server and it should now have your imported world running
-8. Copy local world folders and files to server via `scp`
+8. Copy local world folders and files to server via `scp`. Open `powershell` and run the command below
 ```powershell
 scp -r C:\Users\{username}\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds\{worldname} {username}@{server ip}:"'/home/{admin username}/minecraftbe/{world name}/worlds/Bedrock level'"
 ```
