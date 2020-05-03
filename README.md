@@ -25,6 +25,9 @@ The script will setup the Minecraft sever and ask you some questions on how to c
 
 That is it for the setup script. The server will finish configuring and start!
 
+#### Server properties
+Changing server properties, such as `pvp` are done via the `server.properties` file. Available values can be found [here](https://minecraft.gamepedia.com/Server.properties)
+
 ## Steps used with Java server
 1. `sudo ufw allow 25565/tcp`
 2. `sudo ufw allow 19132/udp`
