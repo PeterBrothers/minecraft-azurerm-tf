@@ -122,6 +122,21 @@ resource "azurerm_network_security_group" "minecraftnsg" {
 }
 
 
+resource "azurerm_managed_disk" "serverdisk" {
+  name                 = "${var.prefix}-server-disk"
+  location             = azurerm_resource_group.rg.location
+  resource_group_name  = azurerm_resource_group.rg.name
+  storage_account_type = "StandardSSD_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = "32"
+  os_type              = "Linux"
+
+  tags = {
+    environment = var.environment
+  }
+}
+
+
 resource "azurerm_virtual_machine" "minecraftvm" {
   name                  = "${var.prefix}-vm"
   location              = azurerm_resource_group.rg.location
