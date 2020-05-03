@@ -5,6 +5,26 @@ Minecraft on Azure via Terraform
 - [Minecraft Bedrock edition - Ubuntu](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
 - [Documentation and step by step process](https://minecraft.gamepedia.com/Tutorials/Setting_up_a_server)
 
+## Steps to setup Bedrock Server
+For Minecraft for Windows 10, you can follow the steps outlined in the link below to setup a Bedrock dedicated server on Linux
+
+- [Minecraft Bedrock Edition – Ubuntu Dedicated Server Guide](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
+
+### Installation
+```bash
+wget https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/SetupMinecraft.sh
+chmod +x SetupMinecraft.sh
+./SetupMinecraft.sh
+```
+
+The script will setup the Minecraft sever and ask you some questions on how to configure it. I’ll explain here what they mean.
+
+“Start Minecraft server at startup automatically (y/n)?” – This will set the Minecraft service to start automatically when your server boots. This is a great option to set up a Minecraft server that is always available.
+
+“Automatically restart and backup server at 4am daily (y/n)?” – This will add a cron job to the server that reboots the server every day at 4am. This is great because every time the server restarts it backs up the server and updates to the latest version. See the “Scheduled Daily Reboots” section below for information on how to customize the time or remove the reboot.
+
+That is it for the setup script. The server will finish configuring and start!
+
 ## Steps used with Java server
 1. `sudo ufw allow 25565/tcp`
 2. `sudo ufw allow 19132/udp`
