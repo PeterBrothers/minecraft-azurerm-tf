@@ -128,7 +128,7 @@ resource "azurerm_managed_disk" "serverdisk" {
   resource_group_name  = azurerm_resource_group.rg.name
   storage_account_type = "StandardSSD_LRS"
   create_option        = "Empty"
-  disk_size_gb         = "16"
+  disk_size_gb         = "8"
   os_type              = "Linux"
 
   tags = {
@@ -174,6 +174,14 @@ resource "azurerm_virtual_machine" "minecraftvm" {
   tags = {
     environment = var.environment
   }
+}
+
+
+resource "azurerm_virtual_machine_data_disk_attachment" "example" {
+  managed_disk_id    = azurerm_managed_disk.serverdisk.id
+  virtual_machine_id = azurerm_virtual_machine.minecraftvm.id
+  lun                = "10"
+  caching            = "ReadWrite"
 }
 
 
