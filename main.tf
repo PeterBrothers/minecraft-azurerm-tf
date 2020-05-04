@@ -62,6 +62,7 @@ resource "azurerm_public_ip" "pip" {
   resource_group_name     = azurerm_resource_group.rg.name
   allocation_method       = "Static"
   idle_timeout_in_minutes = 30
+  domain_name_label       = "daboys"
 
   tags = {
     environment = var.environment
