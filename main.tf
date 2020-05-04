@@ -137,7 +137,7 @@ resource "azurerm_managed_disk" "serverdisk" {
   }
 }
 
-# TODO add DNS configuration
+
 resource "azurerm_virtual_machine" "minecraftvm" {
   name                  = "${var.prefix}-vm"
   location              = azurerm_resource_group.rg.location
