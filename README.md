@@ -1,6 +1,23 @@
 # Overview
 Minecraft (Bedrock server) on Azure via Terraform
 
+## Terraform
+The `main.tf` script uses `terraform.tfvars` file for sensitive configuration information that is used to create the Microsoft Azure resources
+
+```terraform
+subscription_id = ""
+tenant_id = ""
+client_id = ""
+client_secret = ""
+location = ""
+environment = ""
+
+admin_username = ""
+admin_password = ""
+
+machine_ip = ""
+```
+
 ## Minecraft server edition
 - [Bedrock server](https://www.minecraft.net/en-us/download/server/bedrock/)
 
