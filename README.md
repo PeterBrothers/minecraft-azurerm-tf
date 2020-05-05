@@ -1,5 +1,5 @@
 # Overview
-Minecraft (Bedrock server) on Azure via Terraform
+Minecraft (Bedrock server) on Microsoft Azure via Terraform
 
 ## Terraform
 The `main.tf` script uses `terraform.tfvars` file for sensitive configuration information that is used to create the Microsoft Azure resources
@@ -17,6 +17,16 @@ admin_password = ""
 
 machine_ip = ""
 ```
+
+### Resources
+This `terraform` script will create the following resources
+- Virtual network (default) - it is needed but not really used
+- Network interface (default) - it is needed but not really used
+- Public IP address - creates the IP that you can use to SSH into or players can use to connect
+- Disk (os) - OS disk created for the VM
+- Disk (server) - I added an SSD extra disk to hold the server. This can later be attached and moved, backedup (snapshot), etc. It is a separation of concern from the actual VM and the OS disk
+- Virtual Machine - the VM that hosts the server
+- Network security group - used to control SSH access and opens port `19312` to connect to the server
 
 ## Minecraft server edition
 - [Bedrock server](https://www.minecraft.net/en-us/download/server/bedrock/)
@@ -86,16 +96,6 @@ Okay, so first - you don't want to convert the world to a .mcworld file. Here's 
 ```powershell
 scp -r C:\Users\{username}\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds\{worldname} {username}@{server ip}:"'/home/{admin username}/minecraftbe/{world name}/worlds/Bedrock level'"
 ```
-
-## Resources
-This `terraform` script will create the following resources
-- Virtual network (default) - it is needed but not really used
-- Network interface (default) - it is needed but not really used
-- Public IP address - creates the IP that you can use to SSH into or players can use to connect
-- Disk (os) - OS disk created for the VM
-- Disk (server) - I added an SSD extra disk to hold the server. This can later be attached and moved, backedup (snapshot), etc. It is a separation of concern from the actual VM and the OS disk
-- Virtual Machine - the VM that hosts the server
-- Network security group - used to control SSH access and opens port `19312` to connect to the server
 
 ## Documentation
 - [Minecraft Bedrock edition - Ubuntu](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
