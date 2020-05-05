@@ -1,23 +1,21 @@
 # Overview
-Minecraft on Azure via Terraform
+Minecraft (Bedrock server) on Azure via Terraform
 
 ## Minecraft server edition
-- [Minecraft Bedrock edition - Ubuntu](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
-- [Documentation and step by step process](https://minecraft.gamepedia.com/Tutorials/Setting_up_a_server)
+- [Bedrock server](https://www.minecraft.net/en-us/download/server/bedrock/)
 
-## Steps to setup Bedrock Server
-For Minecraft for Windows 10, you can follow the steps outlined in the link below to setup a Bedrock dedicated server on Linux
-
+## Complete guide
+For Minecraft for Windows 10, you can follow the complete guide outlined in the link below to setup a Bedrock dedicated server on Linux
 - [Minecraft Bedrock Edition – Ubuntu Dedicated Server Guide](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
 
-### Installation
+## Installation
 ```bash
 wget https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/SetupMinecraft.sh
 chmod +x SetupMinecraft.sh
 ./SetupMinecraft.sh
 ```
 
-The script will setup the Minecraft sever and ask you some questions on how to configure it. I’ll explain here what they mean.
+The script will setup the Minecraft sever and ask you some questions on how to configure it.
 
 “Start Minecraft server at startup automatically (y/n)?” – This will set the Minecraft service to start automatically when your server boots. This is a great option to set up a Minecraft server that is always available.
 
@@ -25,8 +23,37 @@ The script will setup the Minecraft sever and ask you some questions on how to c
 
 That is it for the setup script. The server will finish configuring and start!
 
-#### Server properties
-Changing server properties, such as `pvp` are done via the `server.properties` file. Available values can be found [here](https://minecraft.gamepedia.com/Server.properties)
+### Server properties
+Changing [server properties](https://minecraft.gamepedia.com/Server.properties) is the file that stores all the settings for a multiplayer server. Settings, such as `pvp`, are done via the `server.properties` file inside your server folder. Available values can be found [here](https://minecraft.gamepedia.com/Server.properties#Minecraft_server_properties)
+
+### Whitelist
+[Whitelist](https://minecraft.gamepedia.com/Whitelist.json) is a server configuration file that stores the usernames of players who have been whitelisted on a server. The file is `whitelist.json`. To activate the whitelist, the `white-list` value in `server.properties` must be changed to `true`: `white-list=true`. This will then only allow the named users to connect to the server
+
+```json
+[
+    {
+        "name": "",
+        "xuid": ""
+    },
+    {
+        "name": "",
+        "xuid": ""
+    }
+]
+```
+
+### Permissions
+Permissions are stored in the `permissions.json` file. This file controls the level of permissions a player has
+
+```json
+[
+    {
+        "permission": "operator",
+        "xuid": ""
+    }
+]
+
+```
 
 ## Steps to load saved server to the Bedrock server
 Okay, so first - you don't want to convert the world to a .mcworld file. Here's what you want to do:
@@ -43,18 +70,17 @@ Okay, so first - you don't want to convert the world to a .mcworld file. Here's 
 scp -r C:\Users\{username}\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds\{worldname} {username}@{server ip}:"'/home/{admin username}/minecraftbe/{world name}/worlds/Bedrock level'"
 ```
 
-## Steps used with Java server
-1. `sudo ufw allow 25565/tcp`
-2. `sudo ufw allow 19132/udp`
-3. `sudo ufw enable`
-4. `sudo ufw status`
-5. `dmesg | grep SCSI`
-6. `sudo fdisk /dev/sdc`
-7. `Command (m for help): w`
-8. `sudo apt install default-jre`
-9. `wget -U "gkama" https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar`
-10. `java -Xmx1024M -Xms1024M -jar server.jar nogui`
-11. `vi eula.txt` to edit `eula=true`
-12. `java -Xmx1024M -Xms1024M -jar server.jar nogui`
+## Resources
+This `terraform` script will create the following resources
+- Virtual network (default) - it is needed but not really used
+- Network interface (default) - it is needed but not really used
+- Public IP address - creates the IP that you can use to SSH into or players can use to connect
+- Disk (os) - OS disk created for the VM
+- Disk (server) - I added an SSD extra disk to hold the server. This can later be attached and moved, backedup (snapshot), etc. It is a separation of concern from the actual VM and the OS disk
+- Virtual Machine - the VM that hosts the server
+- Network security group - used to control SSH access and opens port `19312` to connect to the server
 
-Alternative: `java -Xmx2G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M -jar server.jar nogui`
+## Documentation
+- [Minecraft Bedrock edition - Ubuntu](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
+- [Documentation and step by step process](https://minecraft.gamepedia.com/Tutorials/Setting_up_a_server)
+- [Bedrock server](https://www.minecraft.net/en-us/download/server/bedrock/)
