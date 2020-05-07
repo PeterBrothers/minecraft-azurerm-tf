@@ -28,6 +28,11 @@ This `terraform` script will create the following resources
 - Virtual Machine - the VM that hosts the server
 - Network security group - used to control SSH access and opens port `19312` to connect to the server
 
+#### Mounting the disk to the VM
+A next step, after creating your Microsoft Azure resources, is to SSH into the VM and mount the SSD disk - which is the disk that will host our Minecraft Bedrock server. One great resource for that is [this Microsoft documentation](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/attach-disk-portal#connect-to-the-linux-vm-to-mount-the-new-disk)
+
+
+
 ## Minecraft server edition
 - [Bedrock server](https://www.minecraft.net/en-us/download/server/bedrock/)
 
