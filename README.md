@@ -1,7 +1,9 @@
 # Overview
+
 Minecraft (Bedrock server) on Microsoft Azure via Terraform
 
 ## Terraform
+
 The `main.tf` script uses `terraform.tfvars` file for sensitive configuration information that is used to create the Microsoft Azure resources
 
 ```terraform
@@ -19,7 +21,9 @@ machine_ip = ""
 ```
 
 ### Resources
+
 This `terraform` script will create the following resources
+
 - Virtual network (default) - it is needed but not really used
 - Network interface (default) - it is needed but not really used
 - Public IP address - creates the IP that you can use to SSH into or players can use to connect
@@ -29,18 +33,37 @@ This `terraform` script will create the following resources
 - Network security group - used to control SSH access and opens port `19312` to connect to the server
 
 #### Mounting the disk to the VM
+
 A next step, after creating your Microsoft Azure resources, is to SSH into the VM and mount the SSD disk - which is the disk that will host our Minecraft Bedrock server. One great resource for that is [this Microsoft documentation](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/attach-disk-portal#connect-to-the-linux-vm-to-mount-the-new-disk)
 
+```bash
+ssh azureuser@mypublicdns.westus.cloudapp.azure.com
+dmesg | grep SCSI
+sudo fdisk /dev/sdc
+```
 
+The above last command is used to partition the disk. After the promp shows, press `n`, then `p` for Primary. Then `p` and lastly `w` to write it to disk
+
+```bash
+sudo mkfs -t ext4 /dev/sdc1
+sudo mkdir /minecraft
+sudo mount /dev/sdc1 /minecraft
+```
+
+And you're done. Next you can cd into the directory and run the `SetupMinecraft.sh` script
 
 ## Minecraft server edition
+
 - [Bedrock server](https://www.minecraft.net/en-us/download/server/bedrock/)
 
 ## Complete guide
+
 For Minecraft for Windows 10, you can follow the complete guide outlined in the link below to setup a Bedrock dedicated server on Linux
+
 - [Minecraft Bedrock Edition – Ubuntu Dedicated Server Guide](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
 
 ## Installation
+
 ```bash
 wget https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/SetupMinecraft.sh
 chmod +x SetupMinecraft.sh
@@ -56,9 +79,11 @@ The script will setup the Minecraft sever and ask you some questions on how to c
 That is it for the setup script. The server will finish configuring and start!
 
 ### Server properties
+
 Changing [server properties](https://minecraft.gamepedia.com/Server.properties) is the file that stores all the settings for a multiplayer server. Settings, such as `pvp`, are done via the `server.properties` file inside your server folder. Available values can be found [here](https://minecraft.gamepedia.com/Server.properties#Minecraft_server_properties)
 
 ### Whitelist
+
 [Whitelist](https://minecraft.gamepedia.com/Whitelist.json) is a server configuration file that stores the usernames of players who have been whitelisted on a server. The file is `whitelist.json`. To activate the whitelist, the `white-list` value in `server.properties` must be changed to `true`: `white-list=true`. This will then only allow the named users to connect to the server
 
 ```json
@@ -75,6 +100,7 @@ Changing [server properties](https://minecraft.gamepedia.com/Server.properties) 
 ```
 
 ### Permissions
+
 Permissions are stored in the `permissions.json` file. This file controls the level of permissions a player has
 
 ```json
@@ -88,6 +114,7 @@ Permissions are stored in the `permissions.json` file. This file controls the le
 ```
 
 ## Steps to load saved server to the Bedrock server
+
 Okay, so first - you don't want to convert the world to a .mcworld file. Here's what you want to do:
 
 1. Load your world in Windows 10 as a local world, close minecraft
@@ -98,11 +125,13 @@ Okay, so first - you don't want to convert the world to a .mcworld file. Here's 
 6. Open server.properties on your bedrock server, and find the 'level-name=' line, enter the name of the folder you created in step 5 here (spaces are okay) so that it looks something like level-name=My Server Level - this should exactly match the folder name and level name (as found in levelname.txt)
 7. Start your bedrock server and it should now have your imported world running
 8. Copy local world folders and files to server via `scp`. Open `powershell` and run the command below
+
 ```powershell
 scp -r C:\Users\{username}\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang\minecraftWorlds\{worldname} {username}@{server ip}:"'/home/{admin username}/minecraftbe/{world name}/worlds/Bedrock level'"
 ```
 
 ## Documentation
+
 - [Minecraft Bedrock edition - Ubuntu](https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/)
 - [Documentation and step by step process](https://minecraft.gamepedia.com/Tutorials/Setting_up_a_server)
 - [Bedrock server](https://www.minecraft.net/en-us/download/server/bedrock/)
