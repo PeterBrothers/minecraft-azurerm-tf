@@ -16,6 +16,7 @@ environment = ""
 
 admin_username = ""
 admin_password = ""
+server_name = ""
 
 machine_ip = ""
 ```
@@ -27,6 +28,7 @@ machine_ip = ""
 - `location` - Microsoft Azure location - in this example, I use `eastus`
 - `admin_username` - VM admin username
 - `admin_password` - VM adming password
+- `server_name` - Minecraft server name - used as a domain name label for the public IP
 - `machine_ip` - Machine IP that will get whitelisted to SSH into VM
 
 ### Resources
