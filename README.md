@@ -20,6 +20,15 @@ admin_password = ""
 machine_ip = ""
 ```
 
+- `subscription_id` - Microsoft Azure subscription id
+- `tenant_id` - Microsoft Azure tenant id
+- `client_id` - Microsoft Azure service account client id
+- `client_secret` - Microsoft Azure service account client secret
+- `location` - Microsoft Azure location - in this example, I use `eastus`
+- `admin_username` - VM admin username
+- `admin_password` - VM adming password
+- `machine_ip` - Machine IP that will get whitelisted to SSH into VM
+
 ### Resources
 
 This `terraform` script will create the following resources
