@@ -7,7 +7,7 @@ variable environment {}
 variable admin_username {}
 variable admin_password {}
 variable machine_ip {}
-
+variable "server_name" {}
 
 
 variable "prefix" {
@@ -62,7 +62,7 @@ resource "azurerm_public_ip" "pip" {
   resource_group_name     = azurerm_resource_group.rg.name
   allocation_method       = "Static"
   idle_timeout_in_minutes = 30
-  domain_name_label       = "daboys"
+  domain_name_label       = var.server_name
 
   tags = {
     environment = var.environment
