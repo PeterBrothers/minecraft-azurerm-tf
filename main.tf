@@ -195,6 +195,8 @@ output "minecraftvm_public_ip_address" {
   value = data.azurerm_public_ip.pip.ip_address
 }
 
+
+
 # resource "azurerm_virtual_machine_extension" "domjoin" {
 #   name = "domjoin"
 #   location = "northeurope"
