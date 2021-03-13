@@ -1,7 +1,7 @@
-variable subscription_id {}
-variable tenant_id {}
-variable client_id {}
-variable client_secret {}
+# variable subscription_id {}
+# variable tenant_id {}
+# variable client_id {}
+# variable client_secret {}
 variable location {}
 variable environment {}
 variable admin_username {}
@@ -16,11 +16,10 @@ variable "prefix" {
 
 
 provider "azurerm" {
- version = "~> 2.0.0"
- subscription_id = var.subscription_id
- tenant_id = var.tenant_id
- client_id = var.client_id
- client_secret = var.client_secret
+#  subscription_id = var.subscription_id
+#  tenant_id = var.tenant_id
+#  client_id = var.client_id
+#  client_secret = var.client_secret
 
  features {}
 }
@@ -52,7 +51,7 @@ resource "azurerm_subnet" "internal" {
   name                 = "internal"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefix       = "10.0.2.0/24"
+  address_prefixes       = ["10.0.2.0/24"]
 }
 
 
@@ -167,6 +166,7 @@ resource "azurerm_virtual_machine" "minecraftvm" {
     computer_name  = "minecraft"
     admin_username = var.admin_username
     admin_password = var.admin_password
+    custom_data    = file("SetupMinecraft.sh")
   }
   os_profile_linux_config {
     disable_password_authentication = false
