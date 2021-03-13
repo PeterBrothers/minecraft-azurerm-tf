@@ -194,3 +194,32 @@ data "azurerm_public_ip" "pip" {
 output "minecraftvm_public_ip_address" {
   value = data.azurerm_public_ip.pip.ip_address
 }
+
+# resource "azurerm_virtual_machine_extension" "domjoin" {
+#   name = "domjoin"
+#   location = "northeurope"
+#   resource_group_name = "${azurerm_resource_group.terraformgroup.name}"
+#   virtual_machine_name = "terravm"
+#   publisher = "Microsoft.Compute"
+#   type = "JsonADDomainExtension"
+#   type_handler_version = "1.3"
+#   settings = <<SETTINGS
+
+# {
+# "Name": "deise.com",
+# "OUPath": "OU=Servers,DC=deise,DC=com",
+# "User": "deise.com\\pr_admin",
+# "Restart": "true",
+# "Options": "3"
+# }
+
+#   SETTINGS
+#   protected_settings = <<PROTECTED_SETTINGS
+#   {
+
+#   "Password": "${var.admin_password}"
+#   }
+
+#   PROTECTED_SETTINGS
+#   depends_on = ["azurerm_virtual_machine.terraformvm"]
+#   } 
